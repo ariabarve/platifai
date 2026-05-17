@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Platifai — AI Meal Planning</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #0F0D0B;
+  --card:   #161310;
+  --border: rgba(255,255,255,0.07);
+  --text:   #F0EBE3;
+  --muted:  #5E5248;
+  --accent: #D4581A;
+  --warm:   #C49A5A;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ─────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.4rem 3rem; z-index: 100;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s, border-color 0.3s;
+}
+nav.scrolled {
+  background: rgba(15,13,11,0.90);
+  backdrop-filter: blur(16px);
+  border-color: var(--border);
+}
+.nav-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem; color: var(--text); letter-spacing: -0.01em;
+}
+.nav-links { display: flex; gap: 2.2rem; list-style: none; }
+.nav-links a {
+  font-size: 0.78rem; letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border); padding: 0.55rem 1.3rem; border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.78rem;
+  cursor: pointer; letter-spacing: 0.03em; transition: border-color 0.2s;
+}
+.nav-cta:hover { border-color: rgba(255,255,255,0.22); }
+
+/* ── Hero ────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 8rem 2rem 6rem;
+  position: relative; overflow: hidden;
+}
+.hero-glow {
+  position: absolute;
+  width: 900px; height: 600px;
+  background: radial-gradient(ellipse, rgba(196,154,90,0.06) 0%, transparent 65%);
+  top: 50%; left: 50%; transform: translate(-50%, -52%);
+  pointer-events: none;
+}
+
+.eyebrow {
+  display: flex; align-items: center; gap: 0.55rem; margin-bottom: 2.8rem;
+  opacity: 0; animation: fadeUp 0.6s ease 0.1s forwards;
+}
+.eyebrow-pip { width: 5px; height: 5px; border-radius: 50%; background: var(--warm); }
+.eyebrow-text { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
+.wordmark {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(5rem, 14vw, 12rem);
+  line-height: 0.95; letter-spacing: -0.03em;
+  color: var(--text); text-align: center;
+  margin-bottom: 2.4rem;
+  opacity: 0; animation: fadeUp 0.7s ease 0.25s forwards;
+}
+.wordmark span { color: var(--accent); }
+
+.hero-sub {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: var(--muted); font-weight: 300;
+  max-width: 400px; text-align: center; line-height: 1.75;
+  margin-bottom: 3.2rem;
+  opacity: 0; animation: fadeUp 0.7s ease 0.42s forwards;
+}
+
+.hero-actions {
+  display: flex; gap: 0.75rem;
+  opacity: 0; animation: fadeUp 0.7s ease 0.58s forwards;
+}
+.btn-primary {
+  background: var(--accent); color: #fff; border: none;
+  padding: 0.88rem 2.2rem; border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+  cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-primary:hover {
+  background: #B8470F; transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(212,88,26,0.28);
+}
+.btn-ghost {
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--border); padding: 0.88rem 1.8rem; border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.88rem;
+  cursor: pointer; transition: color 0.2s, border-color 0.2s;
+}
+.btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.18); }
+
+
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* ── Footer ──────────────────────────────────────── */
+footer {
+  padding: 2rem 3rem;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-logo { font-family: 'DM Serif Display', serif; font-size: 1rem; color: var(--muted); }
+.footer-copy { font-size: 0.72rem; color: var(--muted); }
+.footer-links { display: flex; gap: 1.4rem; }
+.footer-links a { font-size: 0.72rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-logo">platifai</div>
+  <ul class="nav-links">
+    <li><a href="#">Product</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">About</a></li>
+  </ul>
+  <button class="nav-cta">Get early access</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="eyebrow">
+    <div class="eyebrow-pip"></div>
+    <span class="eyebrow-text">AI nutrition · Coming soon</span>
+  </div>
+
+  <h1 class="wordmark">platif<span>.</span>ai</h1>
+
+  <p class="hero-sub">
+    The AI that learns how you eat, thinks like a nutritionist, and plans your week in seconds.
+  </p>
+
+
+
+
+</section>
+
+
+
+<footer>
+  <div class="footer-logo">platifai</div>
+  <div class="footer-copy">© 2025 Platifai. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 30);
+});
+</script>
+</body>
+</html>
